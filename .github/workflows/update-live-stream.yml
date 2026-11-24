@@ -22,7 +22,7 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           CHANNEL_ID: "UCQuTuPfsb4uLNjVHtoK2DcA"
-          FALLBACK_STREAM_URL: "https://youtu.be/V_Veugn9CLI"
+          FALLBACK_STREAM_URL: "https://youtu.be/V_Veugn9CLΙ"
           CHANNEL_URL: "https://www.youtube.com/@pesamekatw"
         run: |
           node -e '
@@ -55,8 +55,8 @@ jobs:
             }
 
             const replacement = liveVideoId
-              ? `<a href="https://www.youtube.com/watch?v=${liveVideoId}"><img src="https://img.shields.io/badge/YouTube-LIVE%20NOW-ff0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Live Now" /></a>\n\n🔴 **Currently Live:** [${liveTitle}](https://www.youtube.com/watch?v=${liveVideoId}) — Come say hi in chat!`
-              : `<a href="${fallbackUrl}"><img src="https://img.shields.io/badge/YouTube-Watch%201st%20Stream-282828?style=for-the-badge&logo=youtube&logoColor=ff0000" alt="Watch 1st Stream" /></a>\n\n📺 **Offline right now:** Catch up on my [1st Stream (Day 1 of Learning Web Dev)](${fallbackUrl}) or subscribe on [@pesamekatw](${channelUrl}).`;
+              ? `<a href="https://www.youtube.com/watch?v=${liveVideoId}"><img src="https://img.shields.io/badge/YouTube-LIVE%20NOW-ff0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Live Now" /></a>\n\n **Currently Live:** [${liveTitle}](https://www.youtube.com/watch?v=${liveVideoId}) — Come say hi in chat!`
+              : `<a href="${fallbackUrl}"><img src="https://img.shields.io/badge/YouTube-Watch%201st%20Stream-282828?style=for-the-badge&logo=youtube&logoColor=ff0000" alt="Watch 1st Stream" /></a>\n\n **Offline right now:** Catch up on my [1st Stream (Day 1 of Learning Web Dev)](${fallbackUrl}) or subscribe on [@pesamekatw](${channelUrl}).`;
 
             const readmePath = "README.md";
             let readme = fs.readFileSync(readmePath, "utf8");
