@@ -22,7 +22,7 @@ jobs:
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           CHANNEL_ID: "UCQuTuPfsb4uLNjVHtoK2DcA"
-          FALLBACK_STREAM_URL: "https://www.youtube.com/watch?v=V_Veugn9CLI&t=1292s"
+          FALLBACK_STREAM_URL: "https://youtu.be/V_Veugn9CLI"
           CHANNEL_URL: "https://www.youtube.com/@pesamekatw"
         run: |
           node -e '
