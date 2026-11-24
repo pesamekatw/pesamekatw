@@ -8,7 +8,7 @@ I stream my time working on [The Odin Project](https://www.theodinproject.com/) 
 <!-- LIVE_STREAM_START -->
 <a href="https://www.youtube.com/watch?v=V_Veugn9CLI&t=1292s"><img src="https://img.shields.io/badge/YouTube-Watch%201st%20Stream-282828?style=for-the-badge&logo=youtube&logoColor=ff0000" alt="Watch 1st Stream" /></a>
 
-📺 **Offline right now:** Catch up on my [1st Stream (Day 1 of Learning Web Dev)](https://www.youtube.com/watch?v=V_Veugn9CLI&t=1292s) or subscribe on [@pesamekatw](https://www.youtube.com/@pesamekatw).
+📺 **Offline right now:** Catch up on my [1st Stream (Day 1 of Learning Web Dev)](https://www.youtube.com/watch?v=V_Veugn9CLI) or subscribe on [@pesamekatw](https://www.youtube.com/@pesamekatw).
 <!-- LIVE_STREAM_END -->
 
 You can email me @**petersantosmelachroinoudis@gmail.com** and message me when i stream @ [pesamekatw](https://www.youtube.com/channel/UCQuTuPfsb4uLNjVHtoK2DcA/)
