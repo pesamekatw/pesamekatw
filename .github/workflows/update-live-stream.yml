@@ -1,0 +1,83 @@
+name: Update YouTube Live Status
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/update-live-stream.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  check-live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Check YouTube Live Status & Update README
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          CHANNEL_ID: "UCQuTuPfsb4uLNjVHtoK2DcA"
+          FALLBACK_STREAM_URL: "https://www.youtube.com/watch?v=V_Veugn9CLI&t=1292s"
+          CHANNEL_URL: "https://www.youtube.com/@pesamekatw"
+        run: |
+          node -e '
+          const fs = require("fs");
+
+          async function run() {
+            const apiKey = process.env.YOUTUBE_API_KEY;
+            const channelId = process.env.CHANNEL_ID;
+            const fallbackUrl = process.env.FALLBACK_STREAM_URL;
+            const channelUrl = process.env.CHANNEL_URL;
+
+            if (!apiKey) {
+              throw new Error("YOUTUBE_API_KEY secret is missing.");
+            }
+
+            const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&eventType=live&type=video&key=${apiKey}`;
+            const res = await fetch(url);
+            if (!res.ok) {
+              const errText = await res.text();
+              throw new Error(`YouTube API error (${res.status}): ${errText}`);
+            }
+
+            const data = await res.json();
+            let liveVideoId = null;
+            let liveTitle = null;
+
+            if (data.items && data.items.length > 0) {
+              liveVideoId = data.items[0].id.videoId;
+              liveTitle = data.items[0].snippet.title;
+            }
+
+            const replacement = liveVideoId
+              ? `<a href="https://www.youtube.com/watch?v=${liveVideoId}"><img src="https://img.shields.io/badge/YouTube-LIVE%20NOW-ff0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Live Now" /></a>\n\n🔴 **Currently Live:** [${liveTitle}](https://www.youtube.com/watch?v=${liveVideoId}) — Come say hi in chat!`
+              : `<a href="${fallbackUrl}"><img src="https://img.shields.io/badge/YouTube-Watch%201st%20Stream-282828?style=for-the-badge&logo=youtube&logoColor=ff0000" alt="Watch 1st Stream" /></a>\n\n📺 **Offline right now:** Catch up on my [1st Stream (Day 1 of Learning Web Dev)](${fallbackUrl}) or subscribe on [@pesamekatw](${channelUrl}).`;
+
+            const readmePath = "README.md";
+            let readme = fs.readFileSync(readmePath, "utf8");
+            const pattern = /(<!-- LIVE_STREAM_START -->)[\s\S]*?(<!-- LIVE_STREAM_END -->)/;
+
+            if (!pattern.test(readme)) {
+              throw new Error("LIVE_STREAM markers not found in README.md");
+            }
+
+            readme = readme.replace(pattern, `$1\n${replacement}\n$2`);
+            fs.writeFileSync(readmePath, readme, "utf8");
+          }
+
+          run().catch((err) => {
+            console.error(err);
+            process.exit(1);
+          });
+          '
+
+      - name: Commit changes if README updated
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --quiet || (git add README.md && git commit -m "chore: update YouTube live stream status" && git push)
